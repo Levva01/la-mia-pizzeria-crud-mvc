@@ -1,0 +1,23 @@
+﻿@model List<Pizza>
+@{
+	
+}
+
+<div class="text-center">
+
+	<ul>
+		<h2>Menu Pizze</h2>
+
+		@foreach (Pizza pizza in Model)
+		{
+			<li>
+				<img src="@pizza.Foto">
+				<h4>@pizza.Nome</h4>
+				<p>@pizza.Descrizione</p>
+				<p>@pizza.Prezzo</p>
+			</li>
+		}
+
+	</ul>
+
+</div>

@@ -53,8 +53,53 @@ namespace la_mia_pizzeria_post.Controllers
             return RedirectToAction("Index");
 
         }
+
+        public IActionResult Update(int id)
+        {
+            Pizza? pizza = new();
+            using (var db = new ApplicationDbContext())
+            {
+                pizza = db.Pizze.FirstOrDefault(n => n.Id == id);
+            }
+            if (pizza is null)
+            {
+                return View("Error");
+            }
+
+            return View(pizza);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Pizza formPizza)
+        {
+            ApplicationDbContext pizzaContext = new ApplicationDbContext();
+
+            Pizza pizza = pizzaContext.Pizze.Where(pizzaContext => pizzaContext.Id == id).FirstOrDefault();
+
+            pizza.Nome = formPizza.Nome;
+            pizza.Descrizione = formPizza.Descrizione;
+            pizza.Prezzo = formPizza.Prezzo;
+            pizza.Foto = formPizza.Foto;
+
+            pizzaContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            ApplicationDbContext pizzaContext = new ApplicationDbContext();
+            Pizza pizza = pizzaContext.Pizze.Where(pizza => pizza.Id == id).FirstOrDefault();
+
+            if (pizza == null)
+            {
+                return NotFound("Non trovato");
+            }
+            pizzaContext.Pizze.Remove(pizza);
+            pizzaContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
-
-
-
 }

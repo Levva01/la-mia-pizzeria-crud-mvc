@@ -16,6 +16,11 @@
 				<p>@pizza.Descrizione</p>
 				<p>@pizza.Prezzo</p>
 			</li>
+			<a href = "@Url.Action("Update","Pizza", new{ id = pizza.Id})" >Edit</a>
+
+			<form method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
+				<button type="submit">Delete</button>
+			</form>
 		}
 
 	</ul>

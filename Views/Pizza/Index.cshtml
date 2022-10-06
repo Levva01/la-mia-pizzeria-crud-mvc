@@ -3,26 +3,55 @@
 	
 }
 
-<div class="text-center">
+<h2>Menu Pizze</h2>
 
-	<ul>
-		<h2>Menu Pizze</h2>
+<div class="d-flex flex-wrap gap-3">
+
+	
+		
+
+		
 
 		@foreach (Pizza pizza in Model)
 		{
-			<li>
-				<img src="@pizza.Foto">
-				<h4>@pizza.Nome</h4>
-				<p>@pizza.Descrizione</p>
-				<p>@pizza.Prezzo</p>
-			</li>
-			<a href = "@Url.Action("Update","Pizza", new{ id = pizza.Id})" >Edit</a>
+			/*
+			<div class="d-flex flex-column align-content-center justify-content-center">
+				<div style="width: 200px;" class="align-self-center">
+					<img class="w-100" src="@pizza.Foto">
+				</div>
+				<h4 class="align-self-center">@pizza.Nome</h4>
+				<p class="align-self-center">@pizza.Descrizione</p>
+				<p class="align-self-center">@pizza.Prezzo €</p>
+				<a class="align-self-center" href="">Edit</a>
+				<form class="align-self-center" method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
+					<button type="submit">Delete</button>
+				</form> 
+			</div>
+			*/
 
-			<form method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
-				<button type="submit">Delete</button>
-			</form>
+				<div class="card" style="width: 18rem;">
+					<img class="card-img-top" src="@pizza.Foto" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">@pizza.Nome</h5>
+						<p class="card-text">@pizza.Descrizione</p>
+						<p class="card-text">@pizza.Prezzo €</p>
+						<form class="" method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
+							<button class="btn btn-secondary" type="submit">Delete</button>
+						</form>
+
+						<a href="@Url.Action("Update","Pizza", new{ id = pizza.Id})" class="btn btn-primary mt-3">Edit</a>
+					</div>
+				</div>
+			
+
+			
 		}
 
-	</ul>
+	
 
 </div>
+
+<style lang="scss" scoped>
+		
+</style>
+

@@ -10,6 +10,9 @@ namespace la_mia_pizzeria_crud_mvc.Models
         public string Foto { get; set; }
         public double Prezzo { get; set; }
 
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
+
         public Pizza()
         {
 

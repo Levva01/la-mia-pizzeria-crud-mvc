@@ -2,11 +2,14 @@
 using la_mia_pizzeria_crud_mvc.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Data.SqlClient.Server;
+using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_post.Controllers
 {
     public class PizzaController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             List<Pizza> pizze = new();
@@ -17,14 +20,17 @@ namespace la_mia_pizzeria_post.Controllers
             return View(pizze);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            PizzeCategories pizzeCategories = new PizzeCategories();
+            pizzeCategories.Categories = new ApplicationDbContext().Categories.ToList();
+            return View(pizzeCategories);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza formPizza)
+        public IActionResult Create(PizzeCategories formPizza)
         {
             /*
             using (ApplicationDbContext context = new ApplicationDbContext())
@@ -39,51 +45,66 @@ namespace la_mia_pizzeria_post.Controllers
                 return RedirectToAction("Pizza");
             } */
 
+            ApplicationDbContext context = new ApplicationDbContext();
             if (!ModelState.IsValid)
             {
+                formPizza.Categories = context.Categories.ToList();
                 return View("Create", formPizza);
             }
 
-            using (var db = new ApplicationDbContext())
-            {
-                db.Pizze.Add(formPizza);
+            context.Pizze.Add(formPizza.Pizza);
 
-                db.SaveChanges();
-            }
+
+            context.SaveChanges();
+
             return RedirectToAction("Index");
 
         }
 
+        [HttpGet]
         public IActionResult Update(int id)
         {
-            Pizza? pizza = new();
-            using (var db = new ApplicationDbContext())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                pizza = db.Pizze.FirstOrDefault(n => n.Id == id);
-            }
-            if (pizza is null)
-            {
-                return View("Error");
-            }
+                Pizza pizzaEdit = context.Pizze.Where(post => post.Id == id).FirstOrDefault();
+                if (pizzaEdit is null)
+                {
+                    return View("Error");
+                }
 
-            return View(pizza);
+                PizzeCategories pizzeCategories = new PizzeCategories();
+
+                pizzeCategories.Pizza = pizzaEdit;
+                pizzeCategories.Categories = context.Categories.ToList();
+                return View(pizzeCategories);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizza formPizza)
+        public IActionResult Update(int id, PizzeCategories formPizza)
         {
-            ApplicationDbContext pizzaContext = new ApplicationDbContext();
 
-            Pizza pizza = pizzaContext.Pizze.Where(pizzaContext => pizzaContext.Id == id).FirstOrDefault();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                if (!ModelState.IsValid)
+                {
+                    formPizza.Categories = context.Categories.ToList();
+                    return View("Update", formPizza);
+                }
+                formPizza.Pizza.Id = id;
+                context.Pizze.Update(formPizza.Pizza);
+                /*
+                Pizza pizza = pizzaContext.Pizze.Where(pizzaContext => pizzaContext.Id == id).FirstOrDefault();
 
-            pizza.Nome = formPizza.Nome;
-            pizza.Descrizione = formPizza.Descrizione;
-            pizza.Prezzo = formPizza.Prezzo;
-            pizza.Foto = formPizza.Foto;
+                pizza.Nome = formPizza.Nome;
+                pizza.Descrizione = formPizza.Descrizione;
+                pizza.Prezzo = formPizza.Prezzo;
+                pizza.Foto = formPizza.Foto;
+                */
+                context.SaveChanges();
 
-            pizzaContext.SaveChanges();
-
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

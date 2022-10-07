@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Pizza> Pizze { get; set; }
+    public DbSet<Category> Categories { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=db_pizzeria;Integrated Security=True");
@@ -59,6 +60,32 @@ public class ApplicationDbContext : DbContext
                     Foto = "img/pizza.jpg",
                     Prezzo = 5.00
                 });
+        /*
+        modelBuilder.Entity<Category>()
+            .HasData(
+                new Category
+                {
+                    Id = 1,
+                    Name = "Pizze Classiche",
+                },
+
+                new Category
+                {
+                    Id = 2,
+                    Name = "Pizze Bianche",
+                },
+
+                new Category
+                {
+                    Id = 3,
+                    Name = "Pizze Vegetariane",
+                },
+
+                new Category
+                {
+                    Id = 1,
+                    Name = "Pizze Di Mare",
+                });*/
     }
 
 }

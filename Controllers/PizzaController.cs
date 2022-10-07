@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Data.SqlClient.Server;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_post.Controllers
 {
@@ -13,11 +14,11 @@ namespace la_mia_pizzeria_post.Controllers
         public IActionResult Index()
         {
             List<Pizza> pizze = new();
-            using (ApplicationDbContext db = new ApplicationDbContext())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                pizze = db.Pizze.ToList();
+                pizze = context.Pizze.Include("Category").ToList();
             }
-            return View(pizze);
+            return View("Index", pizze);
         }
 
         [HttpGet]

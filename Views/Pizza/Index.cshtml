@@ -1,4 +1,5 @@
-﻿@model List<Pizza>
+﻿@using la_mia_pizzeria_crud_mvc.Models
+@model List<Pizza>
 @{
 	
 }
@@ -35,7 +36,7 @@
 						<h5 class="card-title">@pizza.Nome</h5>
 						<p class="card-text">@pizza.Descrizione</p>
 						<p class="card-text">@pizza.Prezzo €</p>
-						
+						<p class="card-text">@pizza.Category.Name</p>
 						<form class="" method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
 							<button class="btn btn-secondary" type="submit">Delete</button>
 						</form>

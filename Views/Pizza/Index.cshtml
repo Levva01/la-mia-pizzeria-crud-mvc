@@ -40,6 +40,11 @@
 						<form class="" method="POST" asp-action="Delete" asp-route-id="@pizza.Id">
 							<button class="btn btn-secondary" type="submit">Delete</button>
 						</form>
+						<ul>
+							@foreach(Ingredienti ingredienti in pizza.Ingredients){
+								<li>@ingredienti.Name</li>
+							}
+						</ul>
 
 						<a href="@Url.Action("Update","Pizza", new{ id = pizza.Id})" class="btn btn-primary mt-3">Edit</a>
 					</div>

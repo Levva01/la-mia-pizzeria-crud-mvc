@@ -40,6 +40,18 @@
             </select>
             <span asp-validation-for="Pizza.CategoryId" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <strong>Ingredienti:</strong>
+            <select multiple="multiple"
+                    asp-for="SelectedIngredienti"
+                    size="10"
+                    class="form-control mb-2 mr-sm-2 ml-sm-3 leftList">
+                @foreach (Ingredienti ingredienti in Model.Ingredients)
+                {
+                    <option value="@ingredienti.Id">@ingredienti.Name</option>
+                }
+            </select>
+        </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Create</button>
         </div>

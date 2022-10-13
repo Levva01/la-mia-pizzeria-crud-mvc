@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
-    public DbSet<Pizza> Pizze { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Ingredienti> Ingredients { get; set; }
+    public DbSet<Pizza>? Pizze { get; set; }
+    public DbSet<Category>? Categories { get; set; }
+    public DbSet<Ingredienti>? Ingredients { get; set; }
     /*
     public ApplicationDbContext()
     {

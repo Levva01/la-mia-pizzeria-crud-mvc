@@ -35,4 +35,11 @@ app.MapControllerRoute(
     pattern: "{controller=Pizza}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Pizza}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
 app.Run();

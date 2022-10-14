@@ -7,6 +7,16 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
+    public ApplicationDbContext()
+    {
+
+    }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : base(options)
+    {
+    }
+
     public DbSet<Pizza>? Pizze { get; set; }
     public DbSet<Category>? Categories { get; set; }
     public DbSet<Ingredienti>? Ingredients { get; set; }
